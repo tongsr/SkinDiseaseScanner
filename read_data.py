@@ -15,7 +15,7 @@ def create_pipeline(filename, batch_size, num_epochs=None):
     file_queue = tf.train.string_input_producer([filename], num_epochs=num_epochs)
     image_id, dx = read_data(file_queue)
 
-    min_after_dequeue = 1000
+    min_after_dequeue = 10000
     capacity = min_after_dequeue + batch_size
     image_id_batch, dx_batch = tf.train.shuffle_batch(
         [image_id,dx], batch_size=batch_size, capacity=capacity,
@@ -24,7 +24,7 @@ def create_pipeline(filename, batch_size, num_epochs=None):
 
     return image_id_batch, dx_batch
 
-x_train_batch, y_train_batch = create_pipeline('data/HAM10000_metadata.csv', 1)
+image_id_batch, dx_batch = create_pipeline('data/HAM10000_metadata.csv', 50)
 
 
 init_op = tf.global_variables_initializer()
@@ -37,6 +37,13 @@ with tf.Session() as sess:
     coord = tf.train.Coordinator()
     threads = tf.train.start_queue_runners(coord=coord)
 
+
+    for i in range(1):
+        image_id, dx = sess.run([image_id_batch, dx_batch])
+        print(image_id)
+        print(dx)
+
+'''
     # Retrieve a single instance:
     try:
         #while not coord.should_stop():
@@ -51,3 +58,4 @@ with tf.Session() as sess:
 
     coord.join(threads)
     sess.close()
+'''
