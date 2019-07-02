@@ -25,7 +25,7 @@ python classify_image_inception_v4.py --model_path=data/skin_disease.pb --label_
 
 
 ============以上为inception_v4的训练和测试==========
-python train_image_classifier.py --train_dir=data/train --dataset_name=skin_disease --train_image_size=500 --dataset_split_name=train --dataset_dir=data/skin_disease   --model_name="mobilenet_v2_140"   --checkpoint_path=data/mobilenet_v2_1.4_224.ckpt   --checkpoint_exclude_scopes=MobilenetV2/Logits,MobilenetV2/AuxLogits   --trainable_scopes=MobilenetV2/Logits,MobilenetV2/AuxLogits   --max_number_of_steps=1000   --batch_size=16   --learning_rate=0.001   --learning_rate_decay_type=fixed   --log_every_n_steps=10   --optimizer=rmsprop   --weight_decay=0.00004   --label_smoothing=0.1   --num_clones=1   --num_epochs_per_decay=2.5   --moving_average_decay=0.9999   --learning_rate_decay_factor=0.98   --preprocessing_name="inception_v2"
+python train_image_classifier.py --train_dir=data/train --dataset_name=skin_disease --train_image_size=200 --dataset_split_name=train --dataset_dir=data/skin_disease   --model_name="mobilenet_v2_140"   --checkpoint_path=data/mobilenet_v2_1.4_224.ckpt   --checkpoint_exclude_scopes=MobilenetV2/Logits,MobilenetV2/AuxLogits   --trainable_scopes=MobilenetV2/Logits,MobilenetV2/AuxLogits   --max_number_of_steps=1000000   --batch_size=16   --learning_rate=0.002   --learning_rate_decay_type=fixed   --log_every_n_steps=10   --optimizer=rmsprop   --weight_decay=0.00004   --label_smoothing=0.1   --num_clones=1   --num_epochs_per_decay=2.5   --moving_average_decay=0.9999   --learning_rate_decay_factor=0.98   --preprocessing_name="inception_v2"
 //生成一堆model.ckpt （需要把其他模型生成的ckpt删了）
 
 
