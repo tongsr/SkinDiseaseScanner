@@ -1,0 +1,23 @@
+WARNING:tensorflow:From train_image_classifier.py:413: create_global_step (from tensorflow.contrib.framework.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.create_global_step
+WARNING:tensorflow:From /Users/work/anaconda3/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+
+WARNING: The TensorFlow contrib module will not be included in TensorFlow 2.0.
+For more information, please see:
+  * https://github.com/tensorflow/community/blob/master/rfcs/20180907-contrib-sunset.md
+  * https://github.com/tensorflow/addons
+If you depend on functionality not listed there, please file an issue.
+
+Traceback (most recent call last):
+  File "train_image_classifier.py", line 590, in <module>
+    tf.app.run()
+  File "/Users/work/anaconda3/lib/python3.6/site-packages/tensorflow/python/platform/app.py", line 125, in run
+    _sys.exit(main(argv))
+  File "train_image_classifier.py", line 419, in main
+    FLAGS.dataset_name, FLAGS.dataset_split_name, FLAGS.dataset_dir)
+  File "/Users/work/Desktop/GITHOME/SkinDiseaseScanner/datasets/dataset_factory.py", line 54, in get_dataset
+    raise ValueError('Name of dataset unknown %s' % name)
+ValueError: Name of dataset unknown skin_disease

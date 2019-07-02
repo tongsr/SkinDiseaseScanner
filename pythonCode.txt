@@ -1,0 +1,46 @@
+
+python  train_image_classifier.py  --dataset_name=skin_disease   --dataset_dir=data/skin_disease   --checkpoint_path=data/inception_v4.ckpt  --model_name=inception_v4   --checkpoint_exclude_scopes=InceptionV4/Logits,InceptionV4/AuxLogits/Aux_logits   --trainable_scopes=InceptionV4/Logits,InceptionV4/AuxLogits/Aux_logits   --train_dir=data/train   --learning_rate=0.001   --learning_rate_decay_factor=0.76   --num_epochs_per_decay=50   --moving_average_decay=0.9999   --optimizer=adam   --ignore_missing_vars=True  --batch_size=32
+//生成一堆model.ckpt   由于设备太烂，整个下午才训练了1000步
+
+
+
+
+python export_inference_graph.py --alsoIogtostderr --model_name=inception_v4 --output_file=data/train/inception_v4.pb --dataset_name=skin_disease
+//生成inception_v4.pb
+
+
+
+
+python freeze_graph.py --input_graph data/train/inception_v4.pb --input_checkpoint data/train/model.ckpt-1081 --input_binary true  --output_graph data/skin_disease.pb  --output_node_names=InceptionV4/Logits/Predictions
+//生成skin_disease.pb   output_node_names这个参数很关键，决定了之后的pb文件的输出layer名称  输入都是input:0
+
+
+
+
+python classify_image_inception_v4.py --model_path=data/skin_disease.pb --label_path=data/skin_disease/labels.txt --image_file=data/skin_disease/akiec/ISIC_0024329.jpg --num_top_predictions=7
+//验货
+
+
+
+
+
+============以上为inception_v4的训练和测试==========
+python train_image_classifier.py --train_dir=data/train --dataset_name=skin_disease --train_image_size=500 --dataset_split_name=train --dataset_dir=data/skin_disease   --model_name="mobilenet_v2_140"   --checkpoint_path=data/mobilenet_v2_1.4_224.ckpt   --checkpoint_exclude_scopes=MobilenetV2/Logits,MobilenetV2/AuxLogits   --trainable_scopes=MobilenetV2/Logits,MobilenetV2/AuxLogits   --max_number_of_steps=1000   --batch_size=16   --learning_rate=0.001   --learning_rate_decay_type=fixed   --log_every_n_steps=10   --optimizer=rmsprop   --weight_decay=0.00004   --label_smoothing=0.1   --num_clones=1   --num_epochs_per_decay=2.5   --moving_average_decay=0.9999   --learning_rate_decay_factor=0.98   --preprocessing_name="inception_v2"
+//生成一堆model.ckpt （需要把其他模型生成的ckpt删了）
+
+
+
+
+python export_inference_graph.py --alsoIogtostderr --model_name=mobilenet_v2_140 --output_file=data/train/mobilenet.pb --dataset_name=skin_disease
+//生成inception_v4.pb
+
+
+
+
+python freeze_graph.py --input_graph data/train/mobilenet.pb --input_checkpoint data/train/model.ckpt-130 --input_binary true  --output_graph data/skin_disease_mobile.pb  --output_node_names=MobilenetV2/Predictions/Reshape_1
+//生成skin_disease_mobile.pb   output_node_names这个参数很关键，决定了之后的pb文件的输出layer名称   输入都是input:0
+
+
+
+python classify_image_mobilenet.py --model_path=data/skin_disease_mobile.pb --label_path=data/skin_disease/labels.txt --image_file=data/skin_disease/akiec/ISIC_0024329.jpg --num_top_predictions=7
+//验货
